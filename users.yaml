@@ -1,0 +1,2739 @@
+openapi: 3.0.0
+info:
+  title: Users service
+  description: |
+    Microservice for management of users information in Urbvan app.
+    # Introduction
+    # User microservice API Documentation
+    Collection of endpoints for creating, updating and obtaing information about an Urbvan user.
+  contact:
+    name: "Urbvan Technology"
+    email: "tec@urbvan.com"
+    url: "https://urbvan.com"
+  version: 1.0.0
+  license:
+    name: Urbvan License
+    url: "https://urbvan.com/terminos-condiciones"
+  x-logo:
+    url: 'https://cdn.urbvan.com/website1.0/menu/logo.svg'
+    altText: Urbvan
+  x-audience:
+    - private
+  x-lifecycle:
+    maturity: production
+
+servers:
+- url: 'https://api.urbvan.com/users/'
+tags:
+- name: Users
+  description: management users information.
+
+paths:
+  /users/v3/login:
+    post:
+      tags:
+        - Users
+      summary: Login session
+      description: |-
+        # Required Headers
+        - platform (str)
+        - device (str)
+        - os (str)
+        - version (str)
+
+        # Query String Options
+        - ?by=email
+        - ?by=phone
+
+        # Required Body
+        **if query string is setted by email:**
+        - "email": (str)
+        - "password": (str)
+        **if query string is setted by phone**
+        - "phone": (str) Country code must be included exampe: "+525566778899"
+        - "password": (str)
+
+        # Error Cheatsheet
+        |Code|Message   |
+        |----|---|
+        |1003|Wrong credentials|
+        |1997|Bad object implementation|
+        |1998|Method not implemented|
+        |1999|Unknown exception.|
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                method: otp
+                phone: '+525520269780'
+                uuid: d9d0328e-ed87-4086-ab33-5b86ae47b9e3
+                otp: '2769'
+      parameters:
+        - name: Content-Type
+          in: header
+          required: True
+          schema:
+            type: string
+          example: application/json
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: APP
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{version}}'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 15 Oct 2019 16:06:27 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '695'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: SUCCESS Login by email and password
+                  value:
+                    body:
+                      results:
+                        user:
+                          - uuid: 73049e16-9ffa-4abe-bbf6-6615e297fe28
+                            last_login: null
+                            date_joined: '2019-10-07T09:11:18.916853-05:00'
+                            username: DanielCruz
+                            email: allison37@yahoo.com
+                            email_validated: false
+                            first_name: Daniel
+                            last_name: Cruz
+                            birth_date: null
+                            phone: '+525567053455'
+                            phone_valided: false
+                            country_code: 52
+                            picture: null
+                            is_active: true
+                            is_admin: false
+                            is_removed: false
+                            gender: Femenino
+                            pc_home: ''
+                            pc_office: ''
+                            city: ''
+                            country: Mexico
+                            city_old_id: null
+                            join_date: '2019-10-07T09:11:19.097703-05:00'
+                            last_profile_update: '2019-10-07T09:11:19.097757-05:00'
+                            removed_date: null
+                            registration_token: ''
+                        session:
+                          - id: 6fba3844-e1f9-4c0b-af58-72b6c078a83f
+                            user_uuid: 73049e16-9ffa-4abe-bbf6-6615e297fe28
+                            token: 5e083226c47f5e41d0e74683ec4fbb3e40a3a77f
+                            platform: INVOICES
+                            metadata:
+                              device: Lap
+                              os: MACOS
+                              version: '1.0'
+                            created: '2019-11-14T10:08:59.418613-06:00'
+                            expired: '2019-11-14T17:08:59.331120-06:00'
+                example-1:
+                  summary: SUCCESS Login by phone and password
+                  value:
+                    body:
+                      results:
+                        user:
+                          - uuid: 73049e16-9ffa-4abe-bbf6-6615e297fe28
+                            last_login: null
+                            date_joined: '2019-10-07T09:11:18.916853-05:00'
+                            username: DanielCruz
+                            email: allison37@yahoo.com
+                            email_validated: false
+                            first_name: Daniel
+                            last_name: Cruz
+                            birth_date: null
+                            phone: '+525567053455'
+                            phone_valided: false
+                            country_code: 52
+                            picture: null
+                            is_active: true
+                            is_admin: false
+                            is_removed: false
+                            gender: Femenino
+                            pc_home: ''
+                            pc_office: ''
+                            city: ''
+                            country: Mexico
+                            city_old_id: null
+                            join_date: '2019-10-07T09:11:19.097703-05:00'
+                            last_profile_update: '2019-10-07T09:11:19.097757-05:00'
+                            removed_date: null
+                            registration_token: ''
+                        session:
+                          - id: 6fba3844-e1f9-4c0b-af58-72b6c078a83f
+                            user_uuid: 73049e16-9ffa-4abe-bbf6-6615e297fe28
+                            token: 5e083226c47f5e41d0e74683ec4fbb3e40a3a77f
+                            platform: INVOICES
+                            metadata:
+                              device: Lap
+                              os: MACOS
+                              version: '1.0'
+                            created: '2019-11-14T10:08:59.418613-06:00'
+                            expired: '2019-11-14T17:08:59.331120-06:00'
+                example-2:
+                  summary: Login Success 2
+                  value:
+                    body:
+                      results:
+                        - user:
+                            uuid: f6f2794e-f188-4bd3-b3cb-bb5568eb9150
+                            contacts: []
+                            phone: '5520269780'
+                            last_login: null
+                            username: miguelmiguel973
+                            email: miguel.toledano@urbvan.com
+                            email_validated: true
+                            first_name: Miguel
+                            last_name: Toledanoo
+                            birth_date: '1996-09-12'
+                            phone_valided: true
+                            country_code: 52
+                            picture: >-
+                              https://storage.googleapis.com/urbvan_user_profile_image_stg/miguelmiguel973_avatar.jpg
+                            is_active: true
+                            is_admin: true
+                            is_removed: false
+                            gender: male
+                            pc_home: ''
+                            pc_office: ''
+                            city: Querétaro
+                            country: Mexico
+                            city_id: 3991164
+                            join_date: '2019-11-27T12:47:45.054823-06:00'
+                            last_profile_update: '2021-09-21T15:03:09.435014-05:00'
+                            removed_date: null
+                            registration_token: 3ec7bf95-122e-4719-b664-c92a592268bc
+                            red_member: true
+                            external_id: 51576a75-ac53-4ae8-a284-26a592a68d1f
+                            unique_code: 503232a4
+                            cancelled_trips: 1
+                            code: 8PVRN
+                            completed_trips: 0
+                            created: '2019-11-27T18:47:45.063478+00:00'
+                            currency: ''
+                            fb_access_token: >-
+                              EAAIjerQ3tjUBAIaZCtgHNKOQROuPAnMVwggJTkJdgZBcfxmxi0d5dEqSWL2cGx1sfj0QPdLLMvmYhZA6RZCd3eozh67c2Q0y4zYboNRE0DEeeFwhFqaZCr1537iZAcHAbJZCi5Mh1BGVhNcP7ZAxddxN8gAssyd8gzg1ZBASWhdZCAVS5eRPe1BBZCE6HMpMn4ZCPiQ1Ku4ZCNyo0zqnT7JiiNZCj6lHKj5rjDXqwghxqzy50dOgZDZD
+                            fb_id: '3221262777947406'
+                            id: 276662
+                            invitation_code_url: https://urbvan.app.link/Qof7a97OX1
+                            is_banned: false
+                            is_bosh: false
+                            modified: '2020-02-17T21:32:50.280862+00:00'
+                            payed_trips: 0
+                            player_id: 3ec7bf95-122e-4719-b664-c92a592268bc
+                            services:
+                              corporate: null
+                            stripe_id: cus_JZGXnquLCBbm1L
+                            user_id: f6f2794e-f188-4bd3-b3cb-bb5568eb9150
+                            credits: 0
+                          session:
+                            id: d9c24446-52ce-43b1-9c4e-c73fc2939726
+                            user_uuid: f6f2794e-f188-4bd3-b3cb-bb5568eb9150
+                            token: a263e32acb1c6f9061e10dda6f21481ec4c59532
+                            platform: TRAVEL
+                            metadata:
+                              device: Motorola G5
+                              os: Android
+                              version: '3.4'
+                              client: '276662'
+                            created: '2021-09-28T10:52:19.161684-05:00'
+                            expired: '2022-01-26T10:52:19.135386-06:00'
+                    status_code: 200
+                example-3:
+                  summary: '[SUCCESS] Get Profile'
+                  value:
+                    body:
+                      results:
+                        - user:
+                            uuid: f6f2794e-f188-4bd3-b3cb-bb5568eb9150
+                            contacts: []
+                            phone: '5520269780'
+                            last_login: null
+                            username: miguelmiguel973
+                            email: miguel.toledano@urbvan.com
+                            email_validated: true
+                            first_name: Miguelito
+                            last_name: Toledanito
+                            birth_date: '1996-09-12'
+                            phone_valided: true
+                            country_code: 52
+                            picture: >-
+                              https://storage.googleapis.com/urbvan_user_profile_image_stg/miguelmiguel973_avatar.jpg
+                            is_active: true
+                            is_admin: true
+                            is_removed: false
+                            gender: male
+                            pc_home: ''
+                            pc_office: ''
+                            city: Ciudad de México
+                            country: Mexico
+                            city_id: 3530597
+                            join_date: '2019-11-27T12:47:45.054823-06:00'
+                            last_profile_update: '2021-10-21T13:25:55.554122-05:00'
+                            removed_date: null
+                            registration_token: 3ec7bf95-122e-4719-b664-c92a592268bc
+                            red_member: false
+                            external_id: 51576a75-ac53-4ae8-a284-26a592a68d1f
+                            unique_code: 503232a4
+                            cancelled_trips: 1
+                            code: 8PVRN
+                            completed_trips: 0
+                            created: '2019-11-27T18:47:45.063478+00:00'
+                            currency: ''
+                            fb_access_token: >-
+                              EAAIjerQ3tjUBAIaZCtgHNKOQROuPAnMVwggJTkJdgZBcfxmxi0d5dEqSWL2cGx1sfj0QPdLLMvmYhZA6RZCd3eozh67c2Q0y4zYboNRE0DEeeFwhFqaZCr1537iZAcHAbJZCi5Mh1BGVhNcP7ZAxddxN8gAssyd8gzg1ZBASWhdZCAVS5eRPe1BBZCE6HMpMn4ZCPiQ1Ku4ZCNyo0zqnT7JiiNZCj6lHKj5rjDXqwghxqzy50dOgZDZD
+                            fb_id: '3221262777947406'
+                            id: 276662
+                            invitation_code_url: https://urbvan.app.link/Qof7a97OX1
+                            is_banned: false
+                            is_bosh: false
+                            modified: '2020-02-17T21:32:50.280862+00:00'
+                            payed_trips: 0
+                            player_id: 3ec7bf95-122e-4719-b664-c92a592268bc
+                            services:
+                              corporate:
+                                company_id: 2
+                                company_name: urbvan
+                                is_active: true
+                            stripe_id: null
+                            user_id: f6f2794e-f188-4bd3-b3cb-bb5568eb9150
+                            credits: 0
+                          session:
+                            id: c3f72244-53da-4701-a54b-ec75acf7a70c
+                            user_uuid: f6f2794e-f188-4bd3-b3cb-bb5568eb9150
+                            token: cf27fc64637561067be8d071d9ebbcad09ef9218
+                            platform: TRAVEL
+                            metadata:
+                              device: Motorola G5
+                              os: Android
+                              version: '3.4'
+                              client: '276662'
+                            created: '2021-10-27T12:18:57.493654-05:00'
+                            expired: '2022-02-24T12:18:57.478546-06:00'
+                    status_code: 200
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 15 Oct 2019 16:17:36 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '90'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: ERROR Login with phone and password
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - phone:
+                          - This field is required.
+                    status_code: 400
+                example-1:
+                  summary: '[Error] Login by otp'
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - uuid:
+                          - This field is required.
+                        otp:
+                          - This field is required.
+                    status_code: 400
+                example-2:
+                  summary: ERROR Login with email and password
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - email:
+                          - This field is required.
+                    status_code: 400
+        '401':
+          description: Unauthorized
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 15 Oct 2019 16:18:53 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '96'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results: []
+                errors:
+                  - message: Wrong credentials
+                    code: 1003
+                status_code: 401
+
+  /logout:
+    post:
+      tags:
+        - Users
+      summary: Logout session
+      description: '# Kill the token associate with user'
+      requestBody:
+        content: {}
+      parameters:
+        - name: Platform
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: Device
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: Os
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: Version
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{version}}'
+        - name: Authorization
+          in: header
+          required: True
+          schema:
+            type: string
+          example: Token {{token_autorization}}
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Content-Length:
+              schema:
+                type: integer
+                example: '0'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Date:
+              schema:
+                type: string
+                example: Tue, 25 May 2021 14:17:09 GMT
+            x-amzn-RequestId:
+              schema:
+                type: string
+                example: de577e46-4416-4548-a8ec-6dad52e69eda
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            x-amzn-Remapped-Connection:
+              schema:
+                type: string
+                example: keep-alive
+            x-amz-apigw-id:
+              schema:
+                type: string
+                example: f44DwEu6PHcFkxA=
+            x-amzn-Remapped-Server:
+              schema:
+                type: string
+                example: nginx
+            x-amzn-Remapped-Date:
+              schema:
+                type: string
+                example: Tue, 25 May 2021 14:17:09 GMT
+            X-Cache:
+              schema:
+                type: string
+                example: Miss from cloudfront
+            Via:
+              schema:
+                type: number
+                example: >-
+                  1.1 4759d374f81c150e013482837b3363f2.cloudfront.net
+                  (CloudFront)
+            X-Amz-Cf-Pop:
+              schema:
+                type: string
+                example: QRO51-C1
+            X-Amz-Cf-Id:
+              schema:
+                type: string
+                example: m4iCbksXzpMFaGXhqjDcZojqGZazvnVzNY1C-2ogVyvfykKBWdqvsA==
+          content:
+            application/json:
+              schema:
+                type: object
+              example: null
+
+  /users/v3/signup:
+    post:
+      tags:
+        - Users
+      summary: Signup
+      description: >-
+        # Creates a new user and sends a confirmation email to his account
+
+
+        # Required Headers
+
+        - platform (str)
+
+        - device (str)
+
+        - os (str)
+
+        - version (str)
+
+
+        # Required Body
+
+        - "email": (str)
+
+        - "first_name": (str)
+
+        - "last_name": (str)
+
+        - "phone": (str) Numbers only
+
+        - "country_code": (str)
+
+        - "gender": (str) Options: "male", "female", "unknown"
+
+        - "password" (str) Options: Min length: 8. Accepts number, letters and
+        signs
+
+
+        # Optional Body
+
+        - "city": (str) Options: **See valid cities below**
+
+        - "birthdate" (date): Format: "YYYY/MM/DD"
+
+
+        # Error Cheatsheet
+
+        |Code|Message   |
+
+        |----|---|
+
+        |1000|Insufficient data to create object|
+
+        |1002|Account error, please contact customer support|
+
+        |1004|A user is already registered with similar data|
+
+        |1006|Phone invalid format.|
+
+        |1011|Invalid gender type|
+
+        |1012|We have a problem sending emails.|
+
+        |1013|Invalid password.|
+
+        |1014|Invalid password format|
+
+        |1997|Bad object implementation|
+
+        |1998|Method not implemented|
+
+        |1999|Unknown exception.|
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: miguel_toledano@urbvan.com
+                first_name: Miguel Angel
+                last_name: Toledano Juarez
+                phone: '+525520269781'
+                country_code: '+52'
+                gender: male
+                password: SuperPass53!
+                city: Nuevo León
+                unique_code: '888739283'
+      parameters:
+        - name: Content-Type
+          in: header
+          required: True
+          schema:
+            type: string
+          example: application/json
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: TRAVEL
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: Xiaomi Mi A1
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: Android
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: number
+          example: '4.3'
+        - name: Authorization
+          in: header
+          required: True
+          schema:
+            type: string
+          example: Token {{token}}
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Wed, 18 Sep 2019 18:02:06 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '230'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: '[Ok] User created'
+                  value:
+                    body:
+                      results:
+                        - uuid: 8bd54d60-ee03-4a80-be38-5bf276dcbb73
+                          username: PacoOcampo3
+                          email: paco3@gmail.com
+                          first_name: Paco
+                          last_name: Ocampo
+                          birth_date: null
+                          phone: '+525567053403'
+                          country_code: 52
+                          gender: Masculino
+                          city: ''
+                    errors: []
+                    status_code: 201
+                example-1:
+                  summary: Updated SUCCESS
+                  value:
+                    body:
+                      results:
+                        - user:
+                            uuid: d8d25942-a237-4dfc-b95d-73aa5b95865e
+                            username: AdanSanchez1
+                            email: adansds@urbvan.com
+                            first_name: Adan
+                            last_name: Sanchez
+                            birth_date: null
+                            phone: '+525530256859'
+                            country_code: 52
+                            gender: unknown
+                            city: Ciudad de México
+                            city_id: 3530597
+                            red_member: false
+                            picture: null
+                            external_id: 497357e3-fadf-4fba-8ab6-f0646889a0cf
+                            unique_code: 322db963
+                            cancelled_trips: 0
+                            completed_trips: 0
+                            created: '2021-09-13T02:48:54.687287+00:00'
+                            currency: ''
+                            fb_access_token: ''
+                            fb_id: ''
+                            id: 358301
+                            invitation_code_url: https://urbvan.app.link/X36FK
+                            is_active: true
+                            is_banned: false
+                            is_bosh: false
+                            is_removed: false
+                            modified: '2021-09-13T02:48:54.687448+00:00'
+                            payed_trips: 0
+                            player_id: ''
+                            removed_date: null
+                            services: null
+                            stripe_id: null
+                            user_id: d8d25942-a237-4dfc-b95d-73aa5b95865e
+                            credits: 0
+                          session:
+                            id: 71ba9ff2-414f-4ee5-b904-54637804d407
+                            user_uuid: d8d25942-a237-4dfc-b95d-73aa5b95865e
+                            token: 28777b48b614f934a9293559b374b6462b2534e0
+                            platform: TRAVEL
+                            metadata:
+                              device: Xiaomi Mi A1
+                              os: Android
+                              version: '9.0'
+                              client: '358301'
+                            expired: '2022-01-26T10:53:21.111155-06:00'
+                            created: '2021-09-28T10:53:21.162544-05:00'
+                    status_code: 200
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Wed, 18 Sep 2019 17:56:13 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '135'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: ERROR Invalid Password
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - password:
+                          - This password is too common.
+                          - This password is entirely numeric.
+                    status_code: 400
+                example-1:
+                  summary: ERROR Data required
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - email:
+                          - This field is required.
+                        first_name:
+                          - This field is required.
+                        last_name:
+                          - This field is required.
+                        phone:
+                          - This field is required.
+                        country_code:
+                          - This field is required.
+                        gender:
+                          - This field is required.
+                        password:
+                          - This field is required.
+                    status_code: 400
+
+  /users/v3/profile:
+    get:
+      tags:
+        - Users
+      summary: Get profile of an user
+      description: |-
+        # Get user profile
+
+
+        # Required Headers
+        - platform (str)
+        - device (str)
+        - os (str)
+        - version (str)
+        - authorization (token)
+
+        # Error Cheatsheet
+        |Code|Message   |
+        |----|---|
+        |1001|Unable to get data|
+        |1002|Account error, please contact customer support|
+        |1003|Wrong credentials|
+        |1010|This users does not exists|
+        |1996|Call to dependency has return an error|
+        |1997|Bad object implementation|
+        |1998|Method not implemented|
+        |1999|Unknown exception.|
+      parameters:
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: number
+          example: 3.4.6
+        - name: Authorization
+          in: header
+          required: True
+          schema:
+            type: string
+          example: Token {{token}}
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Thu, 19 Sep 2019 14:55:44 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: GET, HEAD, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '655'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results:
+                    - uuid: 1c8bea38-0972-4949-9df1-aa101558da84
+                      last_login: null
+                      date_joined: '2019-09-18T13:01:57.118251-05:00'
+                      username: PacoOcampo9
+                      email: paco1@gmail.com
+                      first_name: Paco
+                      last_name: Ocampo
+                      birth_date: null
+                      phone: '+525567053401'
+                      phone_valided: false
+                      country_code: 52
+                      picture: null
+                      is_active: false
+                      is_admin: false
+                      is_removed: false
+                      gender: Masculino
+                      pc_home: ''
+                      pc_office: ''
+                      city: ''
+                      country: Mexico
+                      city_old_id: null
+                      join_date: '2019-09-18T13:02:06.298119-05:00'
+                      last_profile_update: '2019-09-18T13:02:06.298149-05:00'
+                      removed_date: null
+                      registration_token: ''
+                errors: []
+                status_code: 200
+        '500':
+          description: Internal Server Error
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Wed, 18 Sep 2019 21:10:24 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: GET, HEAD, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '99'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results: []
+                errors:
+                  - code: '1001'
+                    message: Unable to get data
+                status_code: 500
+
+  /users/v3/update:
+    patch:
+      tags:
+        - Users
+      summary: Update profile of an user
+      description: |-
+        # Updates user profile
+
+        # Required Headers
+        - platform (str)
+        - device (str)
+        - os (str)
+        - version (str)
+        - authorization (token)
+
+        # Optional Body
+        - "email": (str)
+        - "first_name": (str)
+        - "last_name": (str)
+        - "phone": (str) Numbers only
+        - "country_code": (str)
+        - "gender": (str) Options: "Masculino", "Femenino"
+
+        # Error Cheatsheet
+        |Code|Message   |
+        |----|---|
+        |1000|Insufficient data to create object|
+        |1002|Account error, please contact customer support|
+        |1004|A user is already registered with similar data|
+        |1006|Phone invalid format.|
+        |1011|Invalid gender type|
+        |1012|We have a problem sending emails.|
+        |1013|Invalid password.|
+        |1014|Invalid password format|
+        |1997|Bad object implementation|
+        |1998|Method not implemented|
+        |1999|Unknown exception.|
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                phone: '+525520269780'
+      parameters:
+        - name: Content-Type
+          in: header
+          required: True
+          schema:
+            type: string
+          example: application/json
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: number
+          example: '3.4'
+        - name: Authorization
+          in: header
+          required: True
+          schema:
+            type: string
+          example: Token {{token}}
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Thu, 19 Sep 2019 16:04:39 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: PUT, PATCH, DELETE, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '283'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: ERROR update a non existing field
+                  value:
+                    body:
+                      results:
+                        - uuid: 1c8bea38-0972-4949-9df1-aa101558da84
+                          username: PacoOcampo9
+                          email: paco1@gmail.com
+                          first_name: Paco
+                          last_name: Ocampo
+                          birth_date: null
+                          phone: '+525567053401'
+                          country_code: 52
+                          gender: Masculino
+                          city: ''
+                    errors: []
+                    status_code: 200
+                example-1:
+                  summary: Update user
+                  value:
+                    body:
+                      results:
+                        - uuid: 1c8bea38-0972-4949-9df1-aa101558da84
+                          username: PacoOcampo9
+                          email: paco1@gmail.com
+                          first_name: Paco
+                          last_name: Ocampo
+                          birth_date: null
+                          phone: '+525567053401'
+                          country_code: 52
+                          gender: Masculino
+                          city: ''
+                    errors: []
+                    status_code: 200
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Thu, 19 Sep 2019 16:05:41 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: PUT, PATCH, DELETE, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '116'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results: []
+                errors:
+                  - phone:
+                      - Ensure this field has no more than 10 characters.
+                status_code: 400
+
+  /update/one_signal:
+    patch:
+      tags:
+        - Users
+      summary: Update one signal Token
+      description: |-
+        # Updates one-signal token
+
+        # Required Headers
+        - platform (str)
+        - device (str)
+        - os (str)
+        - version (str)
+        - authorization (token)-
+
+        # Required Body
+        - "token": (str)
+
+        # Error Cheatsheet
+        |Code|Message   |
+        |----|---|
+        |1000|Insufficient data to create object|
+        |1002|Account error, please contact customer support|
+        |1003|Wrong credentials|
+        |1010|This users does not exists|
+        |1996|Call to dependency has return an error|
+        |1997|Bad object implementation|
+        |1998|Method not implemented|
+        |1999|Unknown exception.|
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                token: abcd1234567890
+      parameters:
+        - name: Content-Type
+          in: header
+          required: True
+          schema:
+            type: string
+          example: application/json
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{version}}'
+        - name: Authorization
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{token}}'
+        - name: urbvan-user-id
+          in: header
+          required: True
+          schema:
+            type: string
+          description: the user uuid generated by amazon api gateway
+          example: '{{user_id}}'
+        - name: urbvan-client-id
+          in: header
+          required: True
+          schema:
+            type: string
+          description: client id header variable generated by api-gateway
+          example: '{{client_id}}'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Fri, 20 Sep 2019 16:04:33 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: PUT, PATCH, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '79'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results:
+                    - token: abcd1234567890
+                errors: []
+                status_code: 200
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Fri, 20 Sep 2019 16:09:36 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: PUT, PATCH, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '113'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results: []
+                errors:
+                  - message: Insufficient data to create object
+                    code: 1000
+                status_code: 400
+
+  /facebook:
+    post:
+      tags:
+        - Users
+      summary: Link facebook token
+      description: |-
+        # Assign a facebook token to user
+
+        # Required Headers
+        - platform (str)
+        - device (str)
+        - os (str)
+        - version (str)
+        - authorization (token)
+
+        # Required Body
+        - "token": (str)
+
+        # Error Cheatsheet
+        |Code|Message   |
+        |----|---|
+        |1000|Insufficient data to create object|
+        |1002|Account error, please contact customer support|
+        |1003|Wrong credentials|
+        |1010|This users does not exists|
+        |1996|Call to dependency has return an error|
+        |1997|Bad object implementation|
+        |1998|Method not implemented|
+        |1999|Unknown exception.|
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                key: asdgbaslkj123123puou
+      parameters:
+        - name: Content-Type
+          in: header
+          required: True
+          schema:
+            type: string
+          example: application/json
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: OS
+          required: True
+          in: header
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{version}}'
+        - name: Authorization
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{token}}'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Fri, 20 Sep 2019 17:03:41 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '132'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results:
+                    - user_id: 1c8bea38-0972-4949-9df1-aa101558da84
+                      key: asdgbaslkj123123puou
+                errors: []
+                status_code: 201
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Fri, 20 Sep 2019 17:00:43 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '133'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results: []
+                errors:
+                  - message: A user is already registered with that email or phone.
+                    code: 1004
+                status_code: 400
+
+  /phone/validate:
+    post:
+      tags:
+        - Users
+      summary: Check if phone number already exist
+      description: |-
+        # Check if a phone number already exists in database
+
+        # Required Headers
+        - platform (str)
+        - device (str)
+        - os (str)
+        - version (str)
+
+        # Required Body
+        - "phone": (str)
+
+        # Error Cheatsheet
+        |Code|Message   |
+        |----|---|
+        |1003|Wrong credentials|
+        |1005|Phone number already exists|
+        |1996|Call to dependency has return an error|
+        |1997|Bad object implementation|
+        |1998|Method not implemented|
+        |1999|Unknown exception.|
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                phone: '+525520269781'
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          required: True
+          example: application/json
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{version}}'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 01 Oct 2019 16:27:02 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '55'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results:
+                    - {}
+                errors: []
+                status_code: 200
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 01 Oct 2019 16:28:35 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '87'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results: []
+                errors:
+                  - phone:
+                      - Phone already exists
+                status_code: 400
+
+  /email/validate:
+    post:
+      tags:
+        - Users
+      summary: Check if email already exist
+      description: |-
+        # Check if an email already exists in database
+
+        # Required Headers
+        - platform (str)
+        - device (str)
+        - os (str)
+        - version (str)
+
+        # Required Body
+        - "email": (str)
+
+        # Error Cheatsheet
+        |Code|Message   |
+        |----|---|
+        |1003|Wrong credentials|
+        |1005|Email already exists|
+        |1996|Call to dependency has return an error|
+        |1997|Bad object implementation|
+        |1998|Method not implemented|
+        |1999|Unknown exception.|
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: miguel.toledano1@urbvan.com
+      parameters:
+        - name: Content-Type
+          in: header
+          required: True
+          schema:
+            type: string
+          example: application/json
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{version}}'
+      responses:
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 01 Oct 2019 16:31:36 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '93'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results: []
+                errors:
+                  - email:
+                      - This field must be unique.
+                status_code: 400
+
+  /users/v3/password/reset:
+    put:
+      tags:
+        - Users
+      summary: Reset password
+      description: |-
+        # Update user password
+
+        # Required Headers
+        - platform (str)
+        - device (str)
+        - os (str)
+        - version (str)
+        - authorization (token)
+
+        # Required Body
+        - "password": (str)
+        - "confirm": (str)
+
+        # Error Cheatsheet
+        |Code|Message   |
+        |----|---|
+        |1013|Invalid password.|
+        |1014|Invalid password format|
+        |1997|Bad object implementation|
+        |1998|Method not implemented|
+        |1999|Unknown exception.|
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                user_uuid: f6f2794e-f188-4bd3-b3cb-bb5568eb9150
+                code: dc3e6182a650119b5d77cc2216e34dee17419704
+                confirm: Urbvanito54#
+                password: Urbvanito54#
+      parameters:
+        - name: Content-Type
+          in: header
+          required: True
+          schema:
+            type: string
+          example: application/json
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: number
+          example: '3.4'
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: Authorization
+          in: header
+          required: True
+          schema:
+            type: string
+          example: Token {{token_autorization}}
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Thu, 19 Sep 2019 17:35:00 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: PUT, PATCH, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '55'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Reset password
+                  value:
+                    body:
+                      results:
+                        - {}
+                    errors: []
+                    status_code: 200
+                example-1:
+                  summary: '[SUCCESS 2] Reset password'
+                  value:
+                    body:
+                      results:
+                        - user:
+                            uuid: f6f2794e-f188-4bd3-b3cb-bb5568eb9150
+                            contacts: []
+                            phone: '5520269780'
+                            last_login: null
+                            username: miguelmiguel973
+                            email: miguel.toledano@urbvan.com
+                            email_validated: true
+                            first_name: Miguelito
+                            last_name: Toledanito
+                            birth_date: '1996-09-12'
+                            phone_valided: true
+                            country_code: 52
+                            picture: >-
+                              https://storage.googleapis.com/urbvan_user_profile_image_stg/miguelmiguel973_avatar.jpg
+                            is_active: true
+                            is_admin: true
+                            is_removed: false
+                            gender: male
+                            pc_home: ''
+                            pc_office: ''
+                            city: Ciudad de México
+                            country: Mexico
+                            city_id: 3530597
+                            join_date: '2019-11-27T12:47:45.054823-06:00'
+                            last_profile_update: '2021-11-05T17:11:31.779711-06:00'
+                            removed_date: null
+                            registration_token: 3ec7bf95-122e-4719-b664-c92a592268bc
+                            red_member: false
+                            external_id: 51576a75-ac53-4ae8-a284-26a592a68d1f
+                            unique_code: 503232a4
+                            cancelled_trips: 1
+                            code: 8PVRN
+                            completed_trips: 0
+                            created: '2019-11-27T18:47:45.063478+00:00'
+                            currency: ''
+                            fb_access_token: >-
+                              EAAIjerQ3tjUBAIaZCtgHNKOQROuPAnMVwggJTkJdgZBcfxmxi0d5dEqSWL2cGx1sfj0QPdLLMvmYhZA6RZCd3eozh67c2Q0y4zYboNRE0DEeeFwhFqaZCr1537iZAcHAbJZCi5Mh1BGVhNcP7ZAxddxN8gAssyd8gzg1ZBASWhdZCAVS5eRPe1BBZCE6HMpMn4ZCPiQ1Ku4ZCNyo0zqnT7JiiNZCj6lHKj5rjDXqwghxqzy50dOgZDZD
+                            fb_id: '3221262777947406'
+                            id: 276662
+                            invitation_code_url: https://urbvan.app.link/Qof7a97OX1
+                            is_banned: false
+                            is_bosh: false
+                            modified: '2020-02-17T21:32:50.280862+00:00'
+                            payed_trips: 0
+                            player_id: 3ec7bf95-122e-4719-b664-c92a592268bc
+                            services:
+                              corporate:
+                                company_id: 2
+                                company_name: urbvan
+                                is_active: true
+                            stripe_id: null
+                            user_id: f6f2794e-f188-4bd3-b3cb-bb5568eb9150
+                            credits: 0
+                          session:
+                            id: 1bd9597f-7aa4-4711-aa2f-f009dac7d158
+                            user_uuid: f6f2794e-f188-4bd3-b3cb-bb5568eb9150
+                            token: 353c2ca183d5125c46593df828733effb0158695
+                            platform: APP
+                            metadata:
+                              device: iPhone 6
+                              os: iOS
+                              version: '3.4'
+                              client: '276662'
+                            created: '2021-11-05T17:11:32.828177-06:00'
+                            expired: '2024-02-23T17:11:32.790068-06:00'
+                    status_code: 200
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Thu, 19 Sep 2019 17:27:50 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: PUT, PATCH, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '117'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: ERROR Password doesn't match
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - confirm:
+                          code: '1007'
+                          message: Password does not match.
+                    status_code: 400
+                example-1:
+                  summary: ERROR Invalid format
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - password:
+                          - >-
+                            This password is too short. It must contain at least
+                            8 characters.
+                          - This password is too common.
+                    status_code: 400
+                example-2:
+                  summary: ERROR Incomplete data
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - confirm:
+                          - This field is required.
+                    status_code: 400
+                example-3:
+                  summary: Reset password TOO LONG PASSWORD
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - field: password
+                        message: Password must be less than 32 characters
+                        code: 1007
+                    status_code: 400
+
+  /users/v3/password/forgot:
+    post:
+      tags:
+        - Users
+      summary: Recover password by email
+      description: |-
+        # Send an url to user to update his password
+
+        # Required Headers
+        - platform (str)
+        - device (str)
+        - os (str)
+        - version (str)
+
+        # Required Body
+        - "email": (str)
+
+        # Error Cheatsheet
+        |Code|Message   |
+        |----|---|
+        |1001|Unable to get data|
+        |1012|We have a problem sending emails.|
+        |1997|Bad object implementation|
+        |1998|Method not implemented|
+        |1999|Unknown exception.|
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: miguel.toledano@urbvan.com
+      parameters:
+        - name: Content-Type
+          in: header
+          required: True
+          schema:
+            type: string
+          example: application/json
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: number
+          example: '3.4'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Thu, 19 Sep 2019 21:06:47 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '87'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Recover Password
+                  value:
+                    body:
+                      results:
+                        - email: paco.ocampor@gmail.com
+                    errors: []
+                    status_code: 201
+                example-1:
+                  summary: '[SUCCESS] Recover password by email'
+                  value:
+                    body:
+                      results:
+                        - {}
+                    errors: []
+                    status_code: 201
+        '500':
+          description: Internal Server Error
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Thu, 19 Sep 2019 17:57:03 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '97'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results: []
+                errors:
+                  - message: Unable to get data
+                    code: 1003
+                status_code: 500
+
+  /email/belongs_to:
+    post:
+      tags:
+        - Users
+      summary: Email belongs to user's phone number
+      description: |-
+        # Check if an email belongs to user's phone number
+
+        # Required Headers
+        - platform (str)
+        - device (str)
+        - os (str)
+        - version (str)
+
+        # Required Body
+        - "email": (str)
+        - "phone": (str)
+
+        # Error Cheatsheet
+        |Code|Message   |
+        |----|---|
+        |1015|Email account doesn't belongs to user's phone number|
+        |1997|Bad object implementation|
+        |1998|Method not implemented|
+        |1999|Unknown exception.|
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                phone: '+525520269780'
+                email: migantoju@gmail.com
+      parameters:
+        - name: Content-Type
+          in: header
+          required: True
+          schema:
+            type: string
+          example: application/json
+        - name: platform
+          in: header
+          required: True
+          schema:
+            type: string
+          example: APP
+        - name: device
+          in: header
+          required: True
+          schema:
+            type: string
+          example: Android
+        - name: os
+          in: header
+          required: True
+          schema:
+            type: string
+          example: Android
+        - name: version
+          in: header
+          required: True
+          schema:
+            type: integer
+          example: '9'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 05 Nov 2019 16:44:50 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '55'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                body:
+                  results:
+                    - {}
+                errors: []
+                status_code: 200
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 05 Nov 2019 16:35:10 GMT
+            Server:
+              schema:
+                type: number
+                example: WSGIServer/0.2 CPython/3.7.2
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Vary:
+              schema:
+                type: string
+                example: Accept, Accept-Language, Cookie
+            Allow:
+              schema:
+                type: string
+                example: POST, OPTIONS
+            X-Frame-Options:
+              schema:
+                type: string
+                example: DENY
+            Content-Length:
+              schema:
+                type: integer
+                example: '126'
+            Content-Language:
+              schema:
+                type: string
+                example: en
+            X-XSS-Protection:
+              schema:
+                type: string
+                example: 1; mode=block
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: '[ERROR] Email belongs to user''s phone number'
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - phone:
+                          - This field is required.
+                        email:
+                          - This field is required.
+                    status_code: 400
+                example-1:
+                  summary: '[ERROR] Email doesn¡t belong to user''s phone number'
+                  value:
+                    body:
+                      results: []
+                    errors:
+                      - message: Email account doesn't belongs to user's phone number
+                        code: 1015
+                    status_code: 400
+
+  /password/validate_url:
+    get:
+      tags:
+        - Users
+      summary: User password validate url
+      parameters:
+        - name: DEVICE
+          in: header
+          schema:
+            type: string
+          required: True
+          example: '{{device}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{version}}'
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: code
+          in: query
+          required: True
+          schema:
+            type: string
+          example: 461f5ab4ad50cbf17b3fdda2b3b2c608de78d27f
+        - name: user
+          in: query
+          required: True
+          schema:
+            type: string
+          example: 3ba9056d-1e42-412b-a6fc-f99f357e3743
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+
+  /email/confirm:
+    get:
+      tags:
+        - Users
+      summary: Confirm email
+      parameters:
+        - name: PLATFORM
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{platform}}'
+        - name: DEVICE
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{device}}'
+        - name: VERSION
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{version}}'
+        - name: OS
+          in: header
+          required: True
+          schema:
+            type: string
+          example: '{{os}}'
+        - name: Authorization
+          in: header
+          required: True
+          schema:
+            type: string
+          example: Token {{token}}
+        - name: code
+          in: query
+          required: True
+          schema:
+            type: string
+          example: 99f3be6f53c90e2f5bcebdf440391199b19a0da8
+        - name: user
+          in: query
+          required: True
+          schema:
+            type: string
+          example: d78b01ad-c402-4301-8205-3fc2738c9edb
+      responses:
+        '201':
+          description: Succesful response
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                example-0:
+                  summary: 'Send email to confirm account'
+                  value:
+                    body:
+                      results: "[]"
+                    errors: "[]"
+                    estatus_code: 201
+        '400':
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                example-0:
+                  summary: 'Error invalid email'
+                  value:
+                    body:
+                      results: "[]"
+                    errors:
+                      code: 1003
+                      field: "-"
+                      message: "Unable to get data"
+                    status_code: 400
+
+components:
+  responses:
+    NotFound:
+      description: '{NotFound} missed information or incomplete data or invalid format'
+
+    BadRequest:
+      description: '{BadRequest} mandatory parameters'
+
+    ServerError:
+      description: 'Internal Server Error '
